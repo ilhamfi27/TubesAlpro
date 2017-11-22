@@ -1,16 +1,127 @@
 package toegasbesarkelompokakoe;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ToegasBesarKelompokAkoe {
 
     BufferedReader inp = new BufferedReader(new InputStreamReader(System.in));
+    ControllerFilm cf = new ControllerFilm();
+    ControllerMakananMinuman cmm = new ControllerMakananMinuman();
 
-    void execute() {
+    void inputanSalah() {
+        System.out.println("Inputan Anda Salah");
+    }
+
+    // Menu Input Update Delete Data Makanan Minuman
+    void menuDataMakananMinuman() {
+        String pilihan = "";
+        while (true) {
+            System.out.println("1. Input Data MakananMinuman");
+            System.out.println("2. View seluruh data MakananMinuman");
+            System.out.println("3. Update data makanan dan minuman");
+            System.out.println("4. Exit");
+
+            try {
+                pilihan = inp.readLine();
+
+                switch (pilihan) {
+                    case "1":
+                        cmm.inputData();
+                        break;
+                    case "2":
+                        cmm.viewData();
+                        break;
+                    case "3":
+                        cmm.updateData();
+                        break;
+                    case "4":
+                        menuManipulasiData();
+                        break;
+                    default:
+                        inputanSalah();
+                        break;
+                }
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    // Menu Input Update Delete Data Film
+    void menuDataFilm() {
+        String ulang = "";
         do {
-            menu();
+            System.out.println("Daftar Film :");
+            System.out.println("1. Input Data Film");
+            System.out.println("2. View Data Film");
+            System.out.println("3. Exit");
+            System.out.println("===========================");
+            System.out.print("Pilihan anda : ");
+            String fik = "";
+            try {
+                fik = inp.readLine();
+            } catch (IOException ex) {
+                Logger.getLogger(ControllerFilm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            switch (fik) {
+                case "1":
+                    cf.inputData();
+                    break;
+                case "2":
+                    cf.viewData();
+                    break;
+                case "3":
+                    menu();
+                    break;
+                default:
+                    inputanSalah();
+                    break;
+            }
         } while (true);
+    }
+
+    // Menu Pilihan Manipulasi Data
+    void menuManipulasiData() {
+        String pilihan = "";
+        System.out.println("Menu Data");
+        System.out.println("1. Data Film");
+        System.out.println("2. Data Makanan Minuman");
+        System.out.println("0. Kembali");
+        System.out.print("Pilihan : ");
+        try {
+            pilihan = inp.readLine();
+        } catch (Exception e) {
+
+        }
+        switch (pilihan) {
+            case "1":
+                menuDataFilm();
+                break;
+            case "2":
+                menuDataMakananMinuman();
+                break;
+            case "0":
+                menu();
+                break;
+            default:
+                inputanSalah();
+                break;
+        }
+    }
+
+    // Form beli tiket
+    void beliTiket() {
+        System.out.println("Pembelian Tiket");
+        cf.dataFilm();
+        try{
+            System.out.print("Nama:\t");
+        }catch(Exception e){
+            
+        }
     }
 
     void menu() {
@@ -25,12 +136,13 @@ public class ToegasBesarKelompokAkoe {
         } catch (Exception e) {
 
         }
+
         switch (pilihan) {
             case "1":
-                System.out.print("Menu 1");
+                beliTiket();
                 break;
             case "2":
-                System.out.print("Menu 2");
+                menuManipulasiData();
                 break;
             case "0":
                 if (konfirmasiAksi()) {
@@ -38,6 +150,9 @@ public class ToegasBesarKelompokAkoe {
                 } else {
                     menu();
                 }
+                break;
+            default:
+                inputanSalah();
                 break;
         }
     }
@@ -61,6 +176,13 @@ public class ToegasBesarKelompokAkoe {
             konfirmasiAksi();
             return false;
         }
+    }
+
+    void execute() {
+        cf.dummyData();
+        do {
+            menu();
+        } while (true);
     }
 
     public static void main(String[] args) {
